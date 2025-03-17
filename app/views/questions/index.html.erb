@@ -1,0 +1,12 @@
+<h1>All Questions</h1>
+
+<%= link_to "Ask a Question", new_question_path, class: "btn btn-primary" %>
+
+<% @questions.each do |question| %>
+  <div class="question">
+    <h2><%= link_to question.title, question_path(question) %></h2>
+    <p><%= truncate(question.description, length: 100) %></p>
+    <small>Asked by <%= question.user.email %> | <%= pluralize(question.answer_count, "answer") %> | <%= pluralize(question.views_count, "view") %></small>
+  </div>
+  <hr>
+<% end %>

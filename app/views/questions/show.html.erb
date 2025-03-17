@@ -1,0 +1,40 @@
+<h1><%= @question.title %></h1>
+<p><%= @question.description %></p>
+<small>Asked by <%= @question.user.email %> | <%= pluralize(@question.views_count, "view") %></small>
+
+<!-- Edit & Delete options (only for the author) -->
+<% if current_user == @question.user %>
+  <%= link_to "Edit", edit_question_path(@question), class: "btn btn-warning" %>
+  <%= link_to "Delete", question_path(@question), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
+<% end %>
+
+<hr>
+
+<!-- Answer Section -->
+<h2>Answers</h2>
+
+<% @answers.each do |answer| %>
+  <div class="answer">
+    <p><%= answer.content %> - <strong><%= answer.user.email %></strong></p>
+
+    <!-- Comments Section -->
+    <h4>Comments:</h4>
+    <% answer.comments.each do |comment| %>
+      <p>💬 <%= comment.content %> - <strong><%= comment.user.email %></strong></p>
+    <% end %>
+
+    <!-- Comment Form -->
+    <%= form_with(model: [answer, Comment.new], local: true) do |f| %>
+      <%= f.text_area :content, rows: 2, class: "form-control", placeholder: "Write a comment..." %>
+      <%= f.submit "Post Comment", class: "btn btn-sm btn-secondary" %>
+    <% end %>
+  </div>
+  <hr>
+<% end %>
+
+<!-- Answer Form -->
+<h3>Submit Your Answer</h3>
+<%= form_with(model: [@question, Answer.new], local: true) do |f| %>
+  <%= f.text_area :content, rows: 4, class: "form-control", placeholder: "Write your answer..." %>
+  <%= f.submit "Submit Answer", class: "btn btn-success" %>
+<% end %>

@@ -1,0 +1,14 @@
+<%= form_with(model: @question, local: true) do |f| %>
+    <div class="form-group">
+      <%= f.label :title, "Question Title" %>
+      <%= f.text_field :title, class: "form-control", required: true %>
+    </div>
+  
+    <div class="form-group">
+      <%= f.label :description, "Question Details" %>
+      <%= f.text_area :description, class: "form-control", rows: 5, required: true %>
+    </div>
+  
+    <%= f.submit @question.new_record? ? "Post Question" : "Update Question", class: "btn btn-primary" %>
+  <% end %>
+  
