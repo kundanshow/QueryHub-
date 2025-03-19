@@ -1,12 +1,42 @@
-<h1>All Questions</h1>
+<h1 class="all-questions">All Questions</h1>
 
-<%= link_to "Ask a Question", new_question_path, class: "btn btn-primary" %>
+<%= link_to "Ask a Question", new_question_path, class: "ask-btn" %>
 
-<% @questions.each do |question| %>
-  <div class="question">
-    <h2><%= link_to question.title, question_path(question) %></h2>
-    <p><%= truncate(question.description, length: 100) %></p>
-    <small>Asked by <%= question.user.email %> | <%= pluralize(question.answer_count, "answer") %> | <%= pluralize(question.views_count, "view") %></small>
-  </div>
-  <hr>
-<% end %>
+<div class="questions-container">
+  <% if @questions.present? %>
+    <% @questions.each do |question| %>
+      <div class="question-card">
+        <h2><%= link_to question.title, question_path(question) %></h2>
+        <p><%= truncate(question.description, length: 100) %></p>
+        <p class="question-meta">
+          Asked by <%= question.user.email %> |
+          <%= pluralize(question.answers.count, "answer") %> |
+          <%= pluralize(question.views_count, "view") %>
+        </p>
+
+        <!-- Edit and Delete Buttons -->
+        <% if question.user == current_user %>
+          <div class="question-actions">
+            <%= link_to "Edit", edit_question_path(question), class: "edit-btn" %>
+            <%= link_to "Delete", question_path(question), method: :delete, data: { confirm: "Are you sure?" }, class: "delete-btn" %>
+          </div>
+        <% end %>
+
+        <div class="answers-section">
+          <h4>Answers:</h4>
+          <% if question.answers.present? %>
+            <% question.answers.each do |answer| %>
+              <div class="answer-card">
+                <p><strong><%= answer.user.email %>:</strong> <%= answer.content %></p>
+              </div>
+            <% end %>
+          <% else %>
+            <p>No answers yet.</p>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <p>No questions have been posted yet.</p>
+  <% end %>
+</div>

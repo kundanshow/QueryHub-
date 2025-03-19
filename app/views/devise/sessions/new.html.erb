@@ -1,0 +1,28 @@
+<div class="queryhub-login-container">
+<h2 class="queryhub-login-title">Log in</h2>
+
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <div class="queryhub-form-field">
+      <%= f.label :email %>
+      <%= f.email_field :email, placeholder: "Enter your email", autofocus: true, autocomplete: "email" %>
+    </div>
+
+    <div class="queryhub-form-field">
+      <%= f.label :password %>
+      <%= f.password_field :password, placeholder: "Enter your password", autocomplete: "current-password" %>
+    </div>
+
+    <% if devise_mapping.rememberable? %>
+      <div class="queryhub-remember-me">
+        <%= f.check_box :remember_me %>
+        <%= f.label :remember_me %>
+      </div>
+    <% end %>
+
+    <div class="queryhub-form-field-submit">
+      <%= f.submit "Log in", class: "queryhub-login-btn" %>
+    </div>
+  <% end %>
+
+  <%= render "devise/shared/links" %>
+</div>

@@ -1,0 +1,24 @@
+<div class="queryhub-confirmation-container">
+  <h2 class="queryhub-confirmation-title">Resend Confirmation Instructions</h2>
+
+  <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+
+    <div class="queryhub-form-field">
+  <%= f.label :email %>
+  <%= f.email_field :email, 
+        autofocus: true, 
+        autocomplete: "email", 
+        placeholder: "Enter your email", 
+        value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %>
+</div>
+
+    <div class="queryhub-actions">
+      <%= f.submit "Resend Confirmation Instructions", class: "queryhub-confirmation-btn" %>
+    </div>
+  <% end %>
+
+  <div class="queryhub-links">
+    <%= render "devise/shared/links" %>
+  </div>
+</div>

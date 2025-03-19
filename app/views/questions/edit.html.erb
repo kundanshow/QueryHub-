@@ -1,15 +1,17 @@
-<h1>Edit Your Question</h1>
+<h1>Edit Question</h1>
 
-<%= form_with(model: @question, local: true) do |f| %>
+<%= form_with(model: @question, local: true) do |form| %>
   <div class="form-group">
-    <%= f.label :title, "Question Title" %>
-    <%= f.text_field :title, class: "form-control", required: true %>
+    <%= form.label :title %>
+    <%= form.text_field :title, class: "form-control" %>
   </div>
 
   <div class="form-group">
-    <%= f.label :description, "Question Details" %>
-    <%= f.text_area :description, class: "form-control", rows: 5, required: true %>
+    <%= form.label :description %>
+    <%= form.text_area :description, class: "form-control" %>
   </div>
 
-  <%= f.submit "Update Question", class: "btn btn-warning" %>
+  <%= form.submit "Update Question", class: "submit-btn" %>
 <% end %>
+
+<%= link_to "Cancel", questions_path, class: "cancel-btn" %>

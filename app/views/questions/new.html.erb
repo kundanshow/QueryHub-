@@ -1,15 +1,19 @@
-<h1>Ask a New Question</h1>
+<div class="ask-question-container">
+  <h1>Ask a New Question</h1>
 
-<%= form_with(model: @question, local: true) do |f| %>
-  <div class="form-group">
-    <%= f.label :title, "Question Title" %>
-    <%= f.text_field :title, class: "form-control", required: true %>
-  </div>
+  <%= form_with(model: @question, local: true) do |f| %>
+    <div class="form-group">
+  <%= f.text_field :title, class: "form-control", placeholder: "Title of Question", required: true %>
+</div>
 
-  <div class="form-group">
-    <%= f.label :description, "Question Details" %>
-    <%= f.text_area :description, class: "form-control", rows: 5, required: true %>
-  </div>
 
-  <%= f.submit "Post Question", class: "btn btn-primary" %>
-<% end %>
+<div class="form-group">
+<%= f.text_area :description, class: "form-control", rows: 5, placeholder: "Provide more details about your question...", required: true %>
+</div>
+
+
+    <%= f.submit "Post Question", class: "btn btn-primary" %>
+  <% end %>
+
+  <%= link_to "Back to All Questions", questions_path, class: "btn btn-secondary" %>
+</div>

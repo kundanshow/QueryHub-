@@ -1,40 +1,70 @@
-<h1><%= @question.title %></h1>
-<p><%= @question.description %></p>
-<small>Asked by <%= @question.user.email %> | <%= pluralize(@question.views_count, "view") %></small>
+<div class="question-container">
+  <!-- Question Section -->
+  <% cache @question do %>
+    <h1><%= @question.title %></h1>
+    <p class="question-description"><%= @question.description %></p>
+    <small class="question-meta">Asked by: <%= @question.user.email %></small>
+  <% end %>
 
-<!-- Edit & Delete options (only for the author) -->
-<% if current_user == @question.user %>
-  <%= link_to "Edit", edit_question_path(@question), class: "btn btn-warning" %>
-  <%= link_to "Delete", question_path(@question), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
-<% end %>
-
-<hr>
-
-<!-- Answer Section -->
-<h2>Answers</h2>
-
-<% @answers.each do |answer| %>
-  <div class="answer">
-    <p><%= answer.content %> - <strong><%= answer.user.email %></strong></p>
-
-    <!-- Comments Section -->
-    <h4>Comments:</h4>
-    <% answer.comments.each do |comment| %>
-      <p>💬 <%= comment.content %> - <strong><%= comment.user.email %></strong></p>
-    <% end %>
-
-    <!-- Comment Form -->
-    <%= form_with(model: [answer, Comment.new], local: true) do |f| %>
-      <%= f.text_area :content, rows: 2, class: "form-control", placeholder: "Write a comment..." %>
-      <%= f.submit "Post Comment", class: "btn btn-sm btn-secondary" %>
-    <% end %>
-  </div>
   <hr>
-<% end %>
 
-<!-- Answer Form -->
-<h3>Submit Your Answer</h3>
-<%= form_with(model: [@question, Answer.new], local: true) do |f| %>
-  <%= f.text_area :content, rows: 4, class: "form-control", placeholder: "Write your answer..." %>
-  <%= f.submit "Submit Answer", class: "btn btn-success" %>
-<% end %>
+  <!-- Answers Section -->
+  <h3 class="section-title">Answers:</h3>
+
+  <% if @answers.present? && @answers.any? %>
+    <% @answers.each do |answer| %>
+      <div class="answer">
+        <p class="answer-content"><%= answer.content %></p>
+        <small class="answer-meta">Answered by: <%= answer.user.email %></small>
+
+        <!-- Comment Form -->
+        <h4 class="comment-title">Add a Comment:</h4>
+        <%= form_with(model: [answer, Comment.new], local: true, class: "comment-form") do |f| %>
+          <div class="form-group">
+            
+            <%= f.text_area :content, class: "form-control", rows: 3, placeholder: "Write your comment here...", required: true %>
+          </div>
+          <%= f.submit "Submit Comment", class: "btn btn-secondary" %>
+        <% end %>
+
+        <!-- Existing Comments -->
+        <% if answer.comments.any? %>
+          <div class="comments-list">
+            <% answer.comments.each do |comment| %>
+              <div class="comment">
+                <p><strong><%= comment.user.email %>:</strong> <%= comment.content %></p>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="no-comments">No comments yet.</p>
+        <% end %>
+
+      </div>
+      <hr>
+    <% end %>
+  <% else %>
+    <p class="no-answers">No answers yet.</p>
+  <% end %>
+
+  <!-- 🤖 AI Answer -->
+  <% if @ai_answer %>
+    <div class="answer ai-answer">
+      <p><strong>AI Answer:</strong> <%= @ai_answer.content %></p>
+      <small class="answer-meta">Answered by: AI Assistant</small>
+    </div>
+    <hr>
+  <% end %>
+
+  <!-- 📝 Answer Form -->
+  <h3 class="section-title">Your Answer:</h3>
+  <%= form_with(model: [@question, @answer], local: true, class: "answer-form") do |f| %>
+    <div class="form-group">
+      
+      <%= f.text_area :content, class: "form-control", rows: 4, placeholder: "Provide a detailed answer...", required: true %>
+    </div>
+    <%= f.submit "Submit Answer", class: "btn btn-primary" %>
+  <% end %>
+
+  <%= link_to "Back to All Questions", questions_path, class: "btn btn-secondary" %>
+</div>

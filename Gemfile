@@ -4,6 +4,10 @@ ruby "3.4.2"
 
 gem 'devise'
 
+gem 'ruby-openai', '~> 8.0'
+
+gem 'dotenv-rails', '~> 3.1', '>= 3.1.7'
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.5", ">= 7.1.5.1"
 

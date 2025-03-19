@@ -1,0 +1,20 @@
+<div class="queryhub-forgot-password-container">
+  <h2 class="queryhub-forgot-password-title">Forgot your password?</h2>
+
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+
+    <div class="queryhub-form-field">
+      <%= f.label :email, class: "queryhub-form-label" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Enter your email", class: "queryhub-form-input" %>
+    </div>
+
+    <div class="queryhub-actions">
+      <%= f.submit "Send me reset password instructions", class: "queryhub-forgot-password-btn" %>
+    </div>
+  <% end %>
+
+  <div class="queryhub-links">
+    <%= render "devise/shared/links" %>
+  </div>
+</div>
