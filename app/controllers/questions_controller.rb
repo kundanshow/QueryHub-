@@ -1,8 +1,9 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]  # Ensure only logged-in users can ask questions
-
+  before_action :authenticate_user!, except: [:index, :show]
+  before_action :set_question, only: [:show, :edit, :update, :destroy]
+  
   def index
-    @questions = Question.includes(:user, :answers).all  # Load associated data for performance
+    @questions = Question.includes(:user, :answers).all
   end
 
   def new
@@ -13,7 +14,7 @@ class QuestionsController < ApplicationController
     @question = current_user.questions.build(question_params)
 
     if @question.save
-      generate_ai_answer(@question)  # AI generates an answer after saving the question
+      generate_ai_answer(@question)  
       redirect_to @question, notice: "Your question has been posted!"
     else
       render :new, status: :unprocessable_entity
@@ -24,18 +25,18 @@ class QuestionsController < ApplicationController
     @question = Question.find(params[:id])
     @answers = @question.answers.includes(:user)  # Load all answers with user data
     @answer = Answer.new  # Prepare for answer submission form
-    @question.increment!(:views_count)
-    
   end
 
   def edit
-    redirect_to questions_path, alert: "You are not authorized to edit this question." unless @question.user == current_user
+    unless @question.user == current_user
+      redirect_to questions_path, alert: "You are not authorized to edit this question."
+    end
   end
 
   def update
     if @question.user == current_user
       if @question.update(question_params)
-        redirect_to questions_path, notice: "Question was successfully updated."
+        redirect_to @question, notice: "Question was successfully updated."
       else
         render :edit, status: :unprocessable_entity
       end
@@ -45,7 +46,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if @question.user == current_user
+    if @question.user_id == current_user
       @question.destroy
       redirect_to questions_path, notice: "Question was successfully deleted."
     else
@@ -55,9 +56,16 @@ class QuestionsController < ApplicationController
 
   private
 
+  def set_question
+    @question = Question.find_by(id: params[:id])
+    redirect_to questions_path, alert: "Question not found." if @question.nil?
+  end
+
   def question_params
     params.require(:question).permit(:title, :description)
   end
+
+ 
 
   def generate_ai_answer(question)
     client = OpenAI::Client.new(access_token: Rails.application.credentials.dig(:openai, :api_key))
@@ -73,13 +81,11 @@ class QuestionsController < ApplicationController
     ai_answer = response.dig("choices", 0, "message", "content")
 
     if ai_answer.present?
-      # Find or create AI user
       ai_user = User.find_or_create_by(email: "ai@queryhub.com") do |user|
         user.name = "AI Assistant"
-        user.password = SecureRandom.hex(10)  # Random password (not needed for login)
+        user.password = SecureRandom.hex(10)
       end
 
-      # Save AI response as an answer
       question.answers.create!(content: ai_answer, user: ai_user)
     end
   end

@@ -18,7 +18,7 @@
         <% if question.user == current_user %>
           <div class="question-actions">
             <%= link_to "Edit", edit_question_path(question), class: "edit-btn" %>
-            <%= link_to "Delete", question_path(question), method: :delete, data: { confirm: "Are you sure?" }, class: "delete-btn" %>
+            <%= button_to "Delete", question_path(question), method: :delete, class: "delete-btn" %>
           </div>
         <% end %>
 

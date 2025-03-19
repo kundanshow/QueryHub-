@@ -22,7 +22,7 @@
         <%= form_with(model: [answer, Comment.new], local: true, class: "comment-form") do |f| %>
           <div class="form-group">
             
-            <%= f.text_area :content, class: "form-control", rows: 3, placeholder: "Write your comment here...", required: true %>
+            <%= f.text_area :content, class: "form-control-show", rows: 3, placeholder: "Write your comment here...", required: true %>
           </div>
           <%= f.submit "Submit Comment", class: "btn btn-secondary" %>
         <% end %>
@@ -61,7 +61,7 @@
   <%= form_with(model: [@question, @answer], local: true, class: "answer-form") do |f| %>
     <div class="form-group">
       
-      <%= f.text_area :content, class: "form-control", rows: 4, placeholder: "Provide a detailed answer...", required: true %>
+      <%= f.text_area :content, class: "form-control-show", rows: 4, placeholder: "Provide a detailed answer...", required: true %>
     </div>
     <%= f.submit "Submit Answer", class: "btn btn-primary" %>
   <% end %>

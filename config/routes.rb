@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
    root "questions#index"
 
+
+
   resources :questions do
     resources :answers, only: [:create]
   end
