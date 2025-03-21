@@ -14,17 +14,16 @@ class QuestionsController < ApplicationController
     @question = current_user.questions.build(question_params)
 
     if @question.save
-      generate_ai_answer(@question)  
-      redirect_to @question, notice: "Your question has been posted!"
+       suggest_answers(@question)  # Find relevant answers from the database
+    redirect_to question_answers_path(@question), notice: "Your question has been posted!"
     else
       render :new, status: :unprocessable_entity
     end
   end
 
   def show
-    @question = Question.find(params[:id])
-    @answers = @question.answers.includes(:user)  # Load all answers with user data
-    @answer = Answer.new  # Prepare for answer submission form
+    @answers = @question.answers.includes(:user)
+    @answer = Answer.new
   end
 
   def edit
@@ -46,7 +45,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if @question.user_id == current_user
+    if @question.user == current_user
       @question.destroy
       redirect_to questions_path, notice: "Question was successfully deleted."
     else
@@ -65,28 +64,20 @@ class QuestionsController < ApplicationController
     params.require(:question).permit(:title, :description)
   end
 
- 
-
-  def generate_ai_answer(question)
-    client = OpenAI::Client.new(access_token: Rails.application.credentials.dig(:openai, :api_key))
-
-    response = client.chat(
-      parameters: {
-        model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: "Answer the following question: #{question.title} #{question.description}" }],
-        max_tokens: 150
-      }
-    )
-
-    ai_answer = response.dig("choices", 0, "message", "content")
-
-    if ai_answer.present?
-      ai_user = User.find_or_create_by(email: "ai@queryhub.com") do |user|
-        user.name = "AI Assistant"
-        user.password = SecureRandom.hex(10)
-      end
-
-      question.answers.create!(content: ai_answer, user: ai_user)
+  # Method to suggest answers from similar questions
+  def suggest_answers(question)
+   
+    # Fetch similar records from the Store model
+    similar_stores = Store.where("LOWER(title) LIKE ? AND LOWER(description) LIKE ?", 
+                                 "%#{question.title.downcase}%", 
+                                 "%#{question.description.downcase}%")
+  
+    # Create answers from similar Store records
+    similar_stores.each do |store|
+      question.answers.create!(content: store.content, user_id: store.user_id)
     end
+  
+   
   end
+  
 end

@@ -1,0 +1,6 @@
+<h1>Your Answer Received a Comment!</h1>
+
+<p>Someone commented on your answer:</p>
+<p><%= @comment.content %></p>
+
+<p>Check it out here: <%= link_to "View Answer", question_url(@answer.question) %></p>

@@ -1,0 +1,15 @@
+<h1>New Answer Notification</h1>
+
+<p>Hello <%= @user.email %>,</p>
+
+<p>Your question "<strong><%= @question.title %></strong>" has received a new answer.</p>
+
+<p><strong><%= @answer.user.email %></strong> answered:</p>
+<blockquote>
+  <%= @answer.content %>
+</blockquote>
+
+<p>Click <a href="<%= question_url(@question) %>">here</a> to view the full answer.</p>
+
+<p>Best Regards,</p>
+<p>QueryHub Team</p>

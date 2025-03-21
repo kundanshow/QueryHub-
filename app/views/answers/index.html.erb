@@ -1,0 +1,17 @@
+<div class="qa-section">
+  <h1 class="qa-header">Answers for: <%= @question.title %></h1>
+  <p class="qa-description"><%= @question.description %></p>
+
+  <h2 class="qa-answers-title">Existing Answers</h2>
+
+  <% if @answers.present? %>
+    <% @answers.each do |answer| %>
+      <div class="qa-answer-card">
+        <strong class="qa-answer-author"><%= answer.user.email %>:</strong>
+        <p class="qa-answer-content"><%= answer.content %></p>
+      </div>
+    <% end %>
+  <% else %>
+    <p class="qa-no-answers">No answers available yet.</p>
+  <% end %>
+</div>

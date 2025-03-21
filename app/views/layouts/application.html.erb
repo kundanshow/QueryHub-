@@ -12,12 +12,19 @@
 
   <body>
 
+  
+  
   <div class="navbar-container">
   <p class="navbar-text">
+
     <% if user_signed_in? %>
+    <span style="margin-right:930px; font-size:35px; color:yello"><span style="color:red; font-size:50px">Q</span>uery<span style="color:red; font-size:47px">H</span>ub!</span>
+      <%= link_to "Home", questions_path, class: "navbar-link" %>
       <%= link_to "Edit profile", edit_user_registration_path, class: "navbar-link" %> |
       <%= link_to "Logout", destroy_user_session_path, data: { turbo_method: :delete }, class: "navbar-link" %>
     <% else %>
+    <span style="margin-right:900px; font-size:30px; color:yello"><span style="color:red; font-size:50px">Q</span>uery<span style="color:red; font-size:47px">H</span>ub!</span>
+    <%= link_to "Home", questions_path, class: "navbar-link" %>
       <%= link_to "User Sign up", new_user_registration_path, class: "navbar-link" %> |
       <%= link_to "User Login", new_user_session_path, class: "navbar-link" %>
     <% end %>

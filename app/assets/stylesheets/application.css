@@ -100,6 +100,7 @@
     font-weight: bold;
     box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.2);
     transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+    margin-top: 20px;
   }
   
   .ask-btn:hover {
@@ -121,7 +122,7 @@
     align-items: center;
     background: linear-gradient(135deg, rgba(0, 123, 255, 0.8), rgba(0, 86, 179, 0.8));
     backdrop-filter: blur(10px);
-    padding: 15px 30px;
+    padding: 10px 20px;
     border-radius: 12px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease-in-out;
@@ -132,7 +133,7 @@
   }
   
   .navbar-text {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     font-weight: bold;
     color: white;
     letter-spacing: 1px;
@@ -144,9 +145,9 @@
     margin: 0 15px;
     font-weight: 600;
     position: relative;
-    padding: 8px 12px;
+    padding: 8px 22px;
     border-radius: 6px;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out; 
   }
   
   /* Neon Hover Effect */
@@ -1253,3 +1254,89 @@ h1 {
 .back-link:hover {
   text-decoration: underline;
 }
+
+
+
+
+
+
+
+
+/* 🎨 Answer Section Wrapper */
+.qa-section {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 30px;
+  background: linear-gradient(135deg, #69a8fa, #f8f9fa);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  text-align: center;
+}
+
+/* 🏷️ Question Header */
+.qa-header {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/* 📖 Question Details */
+.qa-description {
+  font-size: 1.7rem;
+  color: #ec4e4e;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+/* 📝 Existing Answers Heading */
+.qa-answers-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 20px;
+  color: #222;
+  border-bottom: 3px solid #007bff;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+/* 🗨️ Answer Card */
+.qa-answer-card {
+  background: #f9f9f9;
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 8px;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.qa-answer-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* ✉️ Answer Author */
+.qa-answer-author {
+  font-size: 1rem;
+  color: #007bff;
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* 📜 Answer Content */
+.qa-answer-content {
+  font-size: 1.2rem;
+  color: #444;
+  line-height: 1.6;
+  margin: 5px 0;
+}
+
+/* 🚫 No Answers Message */
+.qa-no-answers {
+  font-size: 1.2rem;
+  color: #888;
+  font-style: italic;
+  margin-top: 20px;
+}
+

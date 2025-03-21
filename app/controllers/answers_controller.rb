@@ -1,15 +1,29 @@
 class AnswersController < ApplicationController
+ before_action :set_question
+
+  def index
+    @answers = @question.answers.includes(:user)
+    @answer = Answer.new  # Form for adding a new answer
+  end
+
   def create
     @question = Question.find(params[:question_id])  # Find the associated question
     @answer = @question.answers.build(answer_params) # Build the answer under the question
     @answer.user = current_user                      # Assign the currently logged-in user
 
     if @answer.save
+      NotificationMailer.new_answer_notification(@answer).deliver_later
       redirect_to @question, notice: "Answer submitted successfully!" # Redirect to show page
     else
       flash[:alert] = "There was an error submitting your answer."
       redirect_to @question
     end
+  end
+
+  private
+
+  def set_question
+    @question = Question.find(params[:question_id])
   end
 
   private
