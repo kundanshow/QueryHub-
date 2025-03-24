@@ -8,6 +8,10 @@ gem 'ruby-openai', '~> 8.0'
 
 gem 'dotenv-rails', '~> 3.1', '>= 3.1.7'
 
+gem "chartkick", "~> 5.1"
+
+gem "groupdate", "~> 6.5"
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.5", ">= 7.1.5.1"
 

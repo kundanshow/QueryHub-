@@ -1,0 +1,7 @@
+
+
+<h2>Questions Asked Per Day</h2>
+<%= column_chart @questions_per_day, xtitle: "Date", ytitle: "Number of Questions" %>
+
+<h2>Answers by Topic</h2>
+<%= pie_chart @answers_per_title, colors: ["#FF5733", "#33FF57", "#3357FF", "#F3FF33", "#FF33A8"] %>

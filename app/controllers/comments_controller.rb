@@ -9,15 +9,11 @@ class CommentsController < ApplicationController
     if @comment.save
       # Send email notification to the answer's author
       NotificationMailer.comment_notification(@answer, @comment).deliver_later
-
-      respond_to do |format|
-        format.html { redirect_to question_path(@answer.question), notice: "Comment added successfully!" }
-        format.js   # For AJAX rendering
-      end
+      redirect_to question_path(@answer.question), notice: "Comment added successfully!"
     else
       redirect_to question_path(@answer.question), alert: "Failed to add comment."
     end
-  end
+  end    
 
   private
 
